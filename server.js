@@ -41,6 +41,10 @@ app.use('/api/v1', bookSession);
 //view pending session routes
 app.use('/api/v1', viewPendingSession);
 
+app.get('/', (req, res) => {
+    res.status(200).json('Server is up and running');
+});
+
 //non existing routes
 app.all("*", (req, res, next) => {
     const err = new Error(`Can't find ${req.originalUrl} on the server`)
@@ -49,11 +53,6 @@ app.all("*", (req, res, next) => {
 
     next(err);
 })
-
-
-app.get('/', (req, res) => {
-    res.status(200).json('Server is up and running');
-});
 
 // Error handler middleware
 app.use((error, req, res, next) => {
