@@ -14,10 +14,6 @@ const requireAuthDean = async (req, res, next) => {
             return res.status(401).json({ error: 'Unauthorized - token error' });
         }
 
-        if (token !== dbUser.token) {
-            return res.status(401).json({ error: 'Unauthorized - token error' });
-        }
-
         if (dbUser.role !== "dean") {
             return res.status(401).json({ error: 'Unauthorized - user is not a dean' });
         }
