@@ -41,15 +41,28 @@ app.use('/api/v1', bookSession);
 //view pending session routes
 app.use('/api/v1', viewPendingSession);
 
+//non existing routes
+app.all("*", (req, res, next) => {
+    const err = new Error(`Can't find ${req.originalUrl} on the server`)
+    err.status = "fail";
+    err.statusCode = 404;
+
+    next(err);
+})
+
 
 app.get('/', (req, res) => {
     res.status(200).json('Server is up and running');
 });
 
 // Error handler middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Internal Server Error' });
+app.use((error, req, res, next) => {
+    error.statusCode = error.statusCode || 500;
+    error.status = error.status || "error";
+    res.status(error.statusCode).json({
+        status: error.status,
+        message: error.message
+    });
 });
 
 //start server

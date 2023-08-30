@@ -15,7 +15,7 @@ router.get('/', requireAuthStudent, async (req, res) => {
         },
             { bookedBy: 0, __v: 0, user: 0, createdAt: 0, updatedAt: 0 });
 
-        if (availableSessions.length === 0) {
+        if (!availableSessions || availableSessions.length === 0) {
             return res.status(404).json({ message: 'No sessions available' });
         }
         res.json(availableSessions);
